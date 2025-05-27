@@ -16,3 +16,5 @@ class TestHTMLNode(unittest.TestCase):
         htmlnode = HTMLNode("<a>","Read more",props={"href":"https://www.google.com","target":"_blank"})
         self.assertEqual(htmlnode.children,None)
     
+if __name__ == "__main__":
+    unittest.main()
