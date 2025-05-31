@@ -1,7 +1,7 @@
 import unittest
 
+from inline_markdown import text_node_to_html_node
 from textnode import TextNode,TextType
-from main import text_node_to_html_node
 
 class TestTextNode(unittest.TestCase):
     def test_eq(self):

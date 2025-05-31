@@ -3,6 +3,24 @@ from htmlnode import HTMLNode
 from leafnode import LeafNode
 import re
 
+
+def text_node_to_html_node(text_node):
+    match(text_node.text_type):
+        case (TextType.TEXT):
+            return LeafNode(None,value=text_node.text)
+        case (TextType.BOLD):
+            return LeafNode("b",text_node.text)
+        case (TextType.ITALIC):
+            return LeafNode("i",text_node.text)
+        case (TextType.CODE):
+            return LeafNode("code",text_node.text)
+        case (TextType.LINK):
+            return LeafNode("a",text_node.text,{"href":text_node.url,"target":"_blank"})
+        case (TextType.IMAGE):
+            return LeafNode("img","",{"src":text_node.url,"alt":text_node.text})
+        case _:
+            raise Exception("invalid text type given to text_node")
+
         
 def split_nodes_delimiter(old_nodes, delimiter, text_type):
     new_nodes = []
@@ -78,5 +96,18 @@ def split_nodes_link(old_nodes):
             new_nodes.append(TextNode(sections[1],TextType.TEXT))
     return new_nodes
                 
+                
+def text_to_textnodes(text):
+    nodes = [TextNode(text,TextType.TEXT)]
+    nodes = split_nodes_delimiter(nodes, "**", TextType.BOLD)
+    nodes = split_nodes_delimiter(nodes, "_", TextType.ITALIC)
+    nodes = split_nodes_delimiter(nodes, "`", TextType.CODE)
+    nodes = split_nodes_image(nodes)
+    nodes = split_nodes_link(nodes)
+    return nodes
+    
+    
+    
+    
             
         
