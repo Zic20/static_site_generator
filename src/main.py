@@ -1,14 +1,26 @@
 from textnode import TextNode, TextType
 from htmlnode import HTMLNode
 from leafnode import LeafNode
+from inline_markdown import (split_nodes_image,split_nodes_link)
 import re
 
 def main():
-    text_node = TextNode("This is some anchor text",TextType.LINK,"https://www.boot.dev")
-    print(text_node)
+    node = TextNode(
+            "This is text with an ![image](https://i.imgur.com/zjjcJKZ.png) and another ![second image](https://i.imgur.com/3elNhQu.png)",
+            TextType.TEXT,
+        )
+    new_nodes = split_nodes_image([node])
     
-    html_node = HTMLNode("<a>","Read more",props={"href":"https://www.google.com","target":"_blank"})
-    print(html_node)
+    print(new_nodes)
+   
+    # node2 = TextNode(
+    #     "This is text with a link [to boot dev](https://www.boot.dev) and [to youtube](https://www.youtube.com/@bootdotdev)",
+    #     TextType.TEXT,
+    # )
+    # new_nodes = split_nodes_link([node2])
+    # print(new_nodes)
+   
+    # split_nodes_image([node])
     
 
 def text_node_to_html_node(text_node):
