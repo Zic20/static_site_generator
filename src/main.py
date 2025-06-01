@@ -1,4 +1,4 @@
-from block_markdown import markdown_to_blocks
+from block_markdown import (markdown_to_blocks,block_to_block_type)
 from textnode import TextNode, TextType
 from htmlnode import HTMLNode
 from leafnode import LeafNode
@@ -7,16 +7,15 @@ import re
 
 def main():
     md = """
-This is **bolded** paragraph
-
-This is another paragraph with _italic_ text and `code` here
-This is the same paragraph on a new line
-
-- This is a list
-- with items
-    """
+##### This is a heading
+"""
     
     blocks = markdown_to_blocks(md)
-    print(blocks)
+    try:
+        block_type = block_to_block_type(blocks[0])
+        print(block_type)
+    except ValueError as e:
+        print(e)
+    
         
 main()
