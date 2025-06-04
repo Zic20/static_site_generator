@@ -1,21 +1,23 @@
-from block_markdown import (markdown_to_blocks,block_to_block_type)
-from textnode import TextNode, TextType
-from htmlnode import HTMLNode
-from leafnode import LeafNode
-from inline_markdown import (split_nodes_image,split_nodes_link)
-import re
+import os
+import shutil
 
 def main():
-    md = """
-##### This is a heading
-"""
+    copy_to_public("./static","./public")
+
+def copy_to_public(source,destination):
+    if not os.path.exists(source):
+        raise Exception("invalid source path provided")
     
-    blocks = markdown_to_blocks(md)
-    try:
-        block_type = block_to_block_type(blocks[0])
-        print(block_type)
-    except ValueError as e:
-        print(e)
-    
+    items = os.listdir(source)
+    for item in items:
+        file_path = os.path.join(source,item)
+        destination_dir = os.path.join(f"{destination}/{item}")
+        if not os.path.isfile(file_path):
+            if os.path.exists(destination_dir) and destination_dir != "./public":
+                shutil.rmtree(destination_dir)
+            os.mkdir(destination_dir)
+            copy_to_public(file_path,destination_dir)
+        else:
+            shutil.copy(file_path,f"{destination}")
         
 main()
