@@ -10,7 +10,8 @@ def main():
     shutil.rmtree(public_dir)
     basepath = "/"
     if len(sys.argv) > 0:
-        basepath = sys.argv[0]
+        basepath = sys.argv[1]
+    print(basepath)
     copy_to_public("./static",public_dir)
     generate_pages_recursive("./content","./template.html",public_dir,basepath)
 
