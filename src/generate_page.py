@@ -1,6 +1,6 @@
 import os
 from block_markdown import extract_title, markdown_to_html_node
-
+from pathlib import Path
 
 
 def generate_page(from_path,template_path,dest_path):
@@ -25,5 +25,21 @@ def generate_page(from_path,template_path,dest_path):
         f.write(template)
     
     
+def generate_pages_recursive(dir_path_content,template_path,dest_dir_path):
+    if not os.path.exists(dest_dir_path):
+        os.mkdir(dest_dir_path)
+    
+    if not os.path.exists(dir_path_content):
+        raise Exception("invalid source path provided")
+    
+    p = Path(dir_path_content)
+    
+    for subdir in p.iterdir():
+        if subdir.is_dir():
+            dest = dest_dir_path + f"/{subdir.name}"
+            generate_pages_recursive(subdir,template_path,dest)
+        else:
+            to_file_path = dest_dir_path + f"/{subdir.name}"
+            generate_page(subdir,template_path,to_file_path.replace("md","html"))   
     
     
