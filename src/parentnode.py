@@ -1,16 +1,14 @@
 from htmlnode import HTMLNode
 
 class ParentNode(HTMLNode):
-    def __init__(self,tag,children,props=None):
-        super().__init__(tag,children=children,props=props)
-        
+    def __init__(self, tag, children, props=None):
+        super().__init__(tag, None, children, props)
+
     def to_html(self):
-        if self.tag == None:
-            raise ValueError("no tag passed to ParentNode object")
-        
-        if self.children == None:
-            raise ValueError("no child passed to ParentNode object")
-        
+        if self.tag is None:
+            raise ValueError("invalid HTML: no tag")
+        if self.children is None:
+            raise ValueError("invalid HTML: no children")
         children_html = ""
         for child in self.children:
             children_html += child.to_html()
@@ -18,5 +16,6 @@ class ParentNode(HTMLNode):
 
     def __repr__(self):
         return f"ParentNode({self.tag}, children: {self.children}, {self.props})"
+
             
         
