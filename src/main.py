@@ -8,7 +8,6 @@ static_dir = "./static"
 def main():
     shutil.rmtree("./public")
     copy_to_public("./static","./public")
-    # generate_page("./content/index.md","./template.html","public/index.html")
     generate_pages_recursive("./content","./template.html","./public")
 
 def copy_to_public(source,destination):
